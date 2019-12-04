@@ -16,7 +16,8 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.36.Final</version>
+            <version>4.1.43.Final</version>
+            <!--Netty 4.1.42.Final之前版本中存在安全漏洞。攻击者可利用该漏洞实施HTTP请求走私攻击。-->
         </dependency>
     </dependencies>
 
