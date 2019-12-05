@@ -1,4 +1,4 @@
-package handle;
+package protocol;
 
 import entity.Header;
 import entity.Message;
