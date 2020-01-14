@@ -23,8 +23,8 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
      * 作为面向流的协议，TCP保证了字节数组将会按照服务器发送它们的顺序被接受
      *
      * SimpleChannelInboundHandler和ChannelInboundHandlerAdapter的区别：
-     * channelRead0()方法完成时会释放消息(释放指向该消息的ByteBuf的内存引用)
-     * channelRead()方法不会释放消息，会在channelReadComplete()中调用writeAndFlush()时被释放
+     * SimpleChannelInboundHandler的channelRead()调用channelRead0()，当channelRead0()完成时会释放消息(释放指向该消息的ByteBuf的内存引用)
+     * ChannelInboundHandlerAdapter的channelRead()方法不会释放消息，会在channelReadComplete()中调用writeAndFlush()时被释放
      *
      * 注：在channelRead()中write()操作是异步的，channelRead()方法返回后可能仍然没有完成，固channelRead()不会释放消息。
      *

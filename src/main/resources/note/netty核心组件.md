@@ -6,7 +6,9 @@
 
 它代表一个到实体(一个文件、一个网络套接字等)的开放连接
 
-每个Channel都有一个与之相关的ChannelPipeline，其持有一个ChannelHandler的实例链。ChannelPipeline是线程安全的。
+每个Channel都有一个与之相关的ChannelPipeline，这项关联是永久性的，ChannelPipeline持有一个ChannelHandler的实例链。ChannelPipeline是线程安全的。
+
+Netty的Channel实现是线程安全的。
 
 #### 回调
 
@@ -23,6 +25,8 @@ netty提供了自己的实现——ChannelFuture。
 ChannelFuture提供了几种额外的方法，这些方法使得我们能过注册一个 或者多个ChannelFutureListener实例。如果ChannelFutureListerner添加到ChannelFuture的时候，ChannelFuture已经完成，那么ChannelFutureListerner将会被直接地通知。
 
 ChannelFutureListener看作是回调的一个更加精细的版本。回调和Future是相互补充的机制。
+
+ChannelPromise是ChannelFuture的一个子类。当一个Promise被完成之后，其对应的Future的值不可更改
 
 #### 事件和ChannelHandler
 

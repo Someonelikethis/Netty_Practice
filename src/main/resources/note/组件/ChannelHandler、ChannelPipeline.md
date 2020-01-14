@@ -12,15 +12,11 @@ ChannelHandler安装到ChannelPipeline中的过程：
 ②当ChannelInitializer.initChannel()方法被调用时，ChannelInitializer将在ChannelPipeline中安装一组自定义的ChannelHandler;
 ③ChannelInitializer将它自己从ChannelPipeline中移除。
 
+ChannelHandler可以实时修改ChannelPipeline，包括将自己移除。
 
 ChannelHandler的执行顺序是由它们被添加的顺序所决定的。实际上，ChannelPipeline就是这些ChannelHandler的编排顺序。
 
 ChannelHandler根据入站和出站被分为ChannelInboundHandler和ChannelOutboundHandler。
-
-当ChannelHandler被添加到ChannelPipeline时，它将会被分配一个ChannelHandlerContext，其代表了ChannelHandler和ChannelPipeline之间的绑定。
-虽然ChannelHandlerContext可以被用于获取底层的Channel，但是它主要还是被用于写出站数据。
-
-通过使用作为参数传递到每个方法的ChannelHandlerContext,事件可以被传递给当前ChannelHandler链中的下一个ChannelHandler。
 
 Netty确保数据只会在具有相同定向类型(入站、出站)的两个ChannelHandler之间传递。
 
@@ -30,6 +26,14 @@ ChannelHandlerAdapter
 ChannelInboundHandlerAdapter
 ChannelOutboundHandlerAdapter
 ChannelDuplexHandle
+
+####ChannelHandlerContext
+ChannelHandlerContext使得ChannelHandler能够和它的ChannelPipeline以及其他ChannelHandler交互。
+
+当ChannelHandler被添加到ChannelPipeline时，它将会被分配一个ChannelHandlerContext，其代表了ChannelHandler和ChannelPipeline之间的绑定。
+虽然ChannelHandlerContext可以被用于获取底层的Channel，但是它主要还是被用于写出站数据。
+
+通过使用作为参数传递到每个方法的ChannelHandlerContext,事件可以被传递给当前ChannelHandler链中的下一个ChannelHandler。
 
 ####两种发送消息的方式
 一、直接写到Channel中，会导致消息从ChannelPipeline的尾端开始流动
