@@ -1,4 +1,4 @@
-Channel、EventLoop、ChannelFuture可以被认为是Netty网络抽象的代表
+###Channel、EventLoop、ChannelFuture可以被认为是Netty网络抽象的代表
 
 Channel——Socket;
 EventLoop——控制流、多线程处理、并发;
@@ -8,7 +8,11 @@ Channel接口大大降低了直接使用Socket类的复杂性
 
 EventLoop定义了Netty的核心抽象，用于处理连接的生命周期中所发生的事件
 
-关系：
+####Channel的创建
+对于有无参构造器的Channel实现，通过反射来实现Channel的创建。
+对于没有无参构造器的Channel实现，通过指定一个ChannelFactory工厂类来实现Channel的创建。
+
+####关系：
 一个EventLoopGroup包含一个或者多个EventLoop；
 一个EventLoop在它的生命周期内只和一个Thread绑定；
 所有由EventLoop处理的I/O事件都将在它专有的Thread上被处理；

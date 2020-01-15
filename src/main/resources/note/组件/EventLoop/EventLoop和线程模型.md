@@ -12,9 +12,17 @@ jdk5引入Executor API，其线程池通过缓存和重用Thread极大地提高�
 
 EventLoop和Channel是一对多的关系
 
+EventLoop将负责处理一个Channel的整个生命周期内的所有事件。
+
+每个EventLoop都有它自己的任务队列
+
 事件/任务的执行顺序：FIFO
 
 在Netty4中，所有I/O操作和事件都由已经被分配给了EventLoop的那个Thread来处理。
+
+####EventLoopGroup
+EventLoopGroup负责为每个新创建的Channel分配一个EventLoop。
+一旦一个Channel被分配一个EventLoop，它将在它的整个生命周期中都使用这个EventLoop。因为这一点，使得无需在ChannelHandler实现中担忧线程安全和同步问题。
 
 ###任务调度
 
