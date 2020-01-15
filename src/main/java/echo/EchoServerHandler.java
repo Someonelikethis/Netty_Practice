@@ -16,10 +16,12 @@ import io.netty.util.CharsetUtil;
  */
 
 /**
- * 对于同样样的 ChannelHandler，正常情况下每一个 ChannelPipeline 都有自己的ChannelHandler实例
+ * 对于添加同样的 ChannelHandler，默认情况下每一个 ChannelPipeline 都有自己的ChannelHandler实例
  * 如果 ChannelHandler 被注解为 @Sharable，全局只有一个handler实例，它会被多个 ChannelPipeline 共享，会被多线程并发调用
  * 所以应该在确定了 ChannelHandler 是线程安全的时才使用 @Sharable 注解
  * 使用这个注解是为了收集跨越多个 Channel 的信息
+ *
+ * 如果ChannelHandler是无状态的（即不需要保存任何状态参数），那么使用Sharable注解，并在bootstrap时只创建一个实例，减少GC。否则每次连接都会new出handler对象。
  */
 @ChannelHandler.Sharable
 public class EchoServerHandler extends ChannelInboundHandlerAdapter {

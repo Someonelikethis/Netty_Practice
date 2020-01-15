@@ -35,6 +35,8 @@ ChannelHandlerContext使得ChannelHandler能够和它的ChannelPipeline以及其
 
 通过使用作为参数传递到每个方法的ChannelHandlerContext,事件可以被传递给当前ChannelHandler链中的下一个ChannelHandler。
 
+ChannelHandlerContext和ChannelHandler之间的关联(绑定)是永远不会改变的，所以**缓存**对它的引用是安全的。
+
 ####两种发送消息的方式
 一、直接写到Channel中，会导致消息从ChannelPipeline的尾端开始流动
 二、写到和ChannelHandler相关联的ChannelHandlerContext中，会导致消息从ChannelPipeline的下一个ChannelHandler开始流动。
@@ -49,3 +51,13 @@ ChannelHandlerContext使得ChannelHandler能够和它的ChannelPipeline以及其
 
 编码、解码的原因：网络数据总是一系列的字节。
 
+####其它
+#####write()和flush()
+write()只会写到队列
+flush()将入队数据冲刷到底层Socket
+
+#####write()
+Channel、ChannelPipeline的write()方法等同，将消息直接写入缓冲区，并从出站第一个开始依次调用ChannelOutboundHandler的write()方法。
+ChannelHandlerContext的write()方法，将消息直接写入缓冲区：
+如果是入站的ctx，则从出站第一个开始依次调用ChannelOutboundHandler的write()方法。
+如果是出站的ctx，则调用下一个ChannelOutboundHandler的write()方法。
