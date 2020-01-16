@@ -57,7 +57,9 @@ public class EchoServer {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            group.shutdownGracefully().sync();
+            //这两种的区别，sync()可以中断，并抛出异常，syncUninterruptibly()不可中断。
+//            group.shutdownGracefully().sync();
+            group.shutdownGracefully().syncUninterruptibly();
         }
     }
 }
